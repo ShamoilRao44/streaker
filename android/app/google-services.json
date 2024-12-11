@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "604721769175",
+    "project_id": "streaker-58e8c",
+    "storage_bucket": "streaker-58e8c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604721769175:android:a5411bb1c029fe77355e92",
+        "android_client_info": {
+          "package_name": "com.example.streaker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604721769175-hdqh4o01jn7aco25nahp9o3e18ds75lb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhexlwOcusbhHkf6VcEiZlMK1m6Ey9fMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604721769175-hdqh4o01jn7aco25nahp9o3e18ds75lb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "604721769175-18de53knoo6vav1r7g038utfm02scj03.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.streaker"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
