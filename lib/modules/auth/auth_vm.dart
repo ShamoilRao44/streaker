@@ -19,6 +19,8 @@ class AuthVM extends GetxController {
   TextEditingController passwordCtrl = TextEditingController();
   TextEditingController cnfrmPswrdCtrl = TextEditingController();
 
+  //----------------------------------------------------------------------------------------------------------------------------------------------------
+
   Future<void> createAccount({required BuildContext context}) async {
     try {
       UserCredential userCredential = await appAuth.createUserWithEmailAndPassword(
@@ -74,6 +76,8 @@ class AuthVM extends GetxController {
     }
   }
 
+  //----------------------------------------------------------------------------------------------------------------------------------
+
   Future<void> login() async {
     try {
       UserCredential userCredential = await appAuth.signInWithEmailAndPassword(
@@ -85,6 +89,7 @@ class AuthVM extends GetxController {
 
       if (user != null && user.emailVerified) {
         appSnackbar(titleText: 'Login successfull', msg: 'Welcome Back ${user.displayName}!');
+        debugPrint('User Object: ${user.toString()}');
         Get.offAllNamed(AppRoutes.homeView);
       } else if (user != null && !user.emailVerified) {
         await appAuth.signOut();
@@ -127,4 +132,59 @@ class AuthVM extends GetxController {
       );
     }
   }
+
+  //----------------------------------------------------------------------------------------------------------------------------------------------
+
+  Future<void> forgotPassword() async {
+    final email = emailCtrl.text.trim();
+    final emailRegex = RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+    if (email.isEmpty) {
+      appSnackbar(
+        titleText: 'Error',
+        msg: 'Please enter your email address!',
+        color: AppColors.errorColor,
+      );
+      return;
+    }
+
+    if (!emailRegex.hasMatch(email)) {
+      appSnackbar(
+        titleText: 'Error',
+        msg: 'Please enter a valid email address!',
+        color: AppColors.errorColor,
+      );
+      return;
+    }
+
+    try {
+      await appAuth.sendPasswordResetEmail(email: email);
+      appSnackbar(
+        titleText: 'Password Reset',
+        msg: 'A password reset link will be sent to $email, if it is Registered.',
+        icon: Icons.email_outlined,
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        appSnackbar(
+          titleText: 'Error',
+          msg: 'No user found with this email address!',
+          color: AppColors.errorColor,
+        );
+      } else if (e.code == 'invalid-email') {
+        appSnackbar(
+          titleText: 'Error',
+          msg: 'Invalid email address!',
+          color: AppColors.errorColor,
+        );
+      } else {
+        appSnackbar(
+          titleText: 'Error',
+          msg: e.message ?? 'An unexpected error occurred!',
+          color: AppColors.errorColor,
+        );
+      }
+    }
+  }
+
+  //----------------------------------------------------------------------------------------------------------------------------
 }

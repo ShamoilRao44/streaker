@@ -18,7 +18,6 @@ class AuthView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var wdth = MediaQuery.of(context).size.width;
-    // var hght = MediaQuery.of(context).size.height;
     return GetBuilder<AuthVM>(
       builder: (c) {
         return SafeArea(
@@ -76,7 +75,7 @@ class AuthView extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 8),
-                      Container(
+                      SizedBox(
                         height: 24,
                         child: VerticalDivider(
                           width: 1,
@@ -150,7 +149,9 @@ class AuthView extends StatelessWidget {
                                     ),
                                     SizedBox(height: 8),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () async {
+                                        await c.forgotPassword();
+                                      },
                                       child: AppText(
                                         text: 'Forgot password?',
                                         color: AppColors.accentColor,

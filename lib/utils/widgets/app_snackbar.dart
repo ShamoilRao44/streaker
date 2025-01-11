@@ -18,13 +18,13 @@ SnackbarController appSnackbar({
     titleText: AppText(
       text: titleText ?? "",
       color: color == AppColors.errorColor ? AppColors.textColor2 : AppColors.textColor,
-      size: 18,
+      size: 16,
     ),
     messageText: AppText(
       text: msg ?? "",
       color: color == AppColors.errorColor ? AppColors.textColor2 : AppColors.textColor,
-      size: 14,
-      maxLines: 2,
+      size: 12,
+      maxLines: 3,
     ),
     icon: icon != null
         ? Icon(
