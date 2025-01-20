@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:streaker/resources/app_colors.dart';
 import 'package:streaker/resources/app_routes.dart';
+import 'package:streaker/resources/app_strings.dart';
+import 'package:streaker/utils/hive_utils.dart';
 import 'package:streaker/utils/widgets/app_snackbar.dart';
 
 class AuthVM extends GetxController {
@@ -88,8 +91,14 @@ class AuthVM extends GetxController {
       User? user = userCredential.user;
 
       if (user != null && user.emailVerified) {
-        appSnackbar(titleText: 'Login successfull', msg: 'Welcome Back ${user.displayName}!');
+        initializeHiveUserBox(user);
+        appSnackbar(
+          titleText: 'Login successfull',
+          msg: 'Welcome Back ${user.displayName}!',
+        );
+
         debugPrint('User Object: ${user.toString()}');
+
         Get.offAllNamed(AppRoutes.homeView);
       } else if (user != null && !user.emailVerified) {
         await appAuth.signOut();
@@ -187,4 +196,15 @@ class AuthVM extends GetxController {
   }
 
   //----------------------------------------------------------------------------------------------------------------------------
+
+  Future<void> initializeHiveUserBox(User user) async {
+    var box = await Hive.openBox(AppStrings.hiveUserBox);
+
+    box.put(HiveUserBoxKeys.uid, user.uid);
+    box.put(HiveUserBoxKeys.userName, user.displayName);
+    box.put(HiveUserBoxKeys.userEmail, user.email);
+    box.put(HiveUserBoxKeys.creationTime, user.metadata.creationTime);
+
+    box.close();
+  }
 }
